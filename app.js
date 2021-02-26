@@ -5,16 +5,25 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const jwtKoa = require('koa-jwt')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
 
+const { SECRET } = require('./conf/constants')
+
 // error handler
 onerror(app)
 
+app.use(jwtKoa({
+  secret: SECRET
+}).unless({
+  path: [/^\/users\/login/], // 自定义哪些路由忽略 jwt 验证
+}))
+
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes: ['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())
