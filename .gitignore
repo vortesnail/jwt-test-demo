@@ -1,0 +1,10 @@
+# Logs
+logs
+*.log
+
+# files
+node_modules
+build
+dist
+dump.rdb
+package-lock.json
